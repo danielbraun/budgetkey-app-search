@@ -6,6 +6,7 @@
         <input #searchBox
                class="form-control"
                type="text"
+               value={{term}}
                placeholder="חפשו במפתח"
                (keyup)="search(searchBox.value)"/>
         <span class="input-group-addon">

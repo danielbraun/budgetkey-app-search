@@ -2,6 +2,7 @@ import './rxjs-extensions';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
@@ -22,7 +23,11 @@ import { Highlighter } from './highlighter/search.highlighter';
   imports: [
     BrowserModule,
     HttpModule,
-    BudgetKeyCommonModule
+      BudgetKeyCommonModule,
+      RouterModule.forRoot(
+          [{path: '', component: SearchComponent}],
+          {enableTracing: true }
+      )
   ],
   declarations: [
     AppComponent,

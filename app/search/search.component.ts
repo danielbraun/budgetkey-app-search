@@ -2,11 +2,13 @@
  * Created by adam on 18/12/2016.
  */
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SearchService } from '../_service/search.service';
 import { SearchResults, DocResultEntry, SearchResultsCounter } from '../_model/SearchResults';
+let _ = require('lodash');
 
 @Component({
   moduleId: module.id,
@@ -35,9 +37,15 @@ export class SearchComponent implements OnInit {
   private isSearching: boolean;
   private isErrorInLastSearch: boolean;
 
-  constructor(private searchService: SearchService) { }
+    constructor(
+        private searchService: SearchService,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {}
 
   ngOnInit() {
+      let term = _.get(this.route, ['snapshot', 'queryParams', 'term']);
+      this.term = term;
     this.searchTerms = new Subject<string>();
     this.allDocs = new BehaviorSubject<DocResultEntry[]>([]);
     this.allResults = new Array;
@@ -70,7 +78,9 @@ export class SearchComponent implements OnInit {
       this.isSearching = false;
       this.processResults(results);
     });
-    this.search('חינוך'); // a default search query, to get things started..
+      if (term) {
+          this.search(term); // a default search query, to get things started..
+      }
   }
 
   /**
